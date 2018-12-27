@@ -116,7 +116,8 @@ Module.register('MMM-TrafficJu', {
           if (this.config.route_name) {
             var routeName = document.createElement('div');
             routeName.className = 'dimmed small';
-            if (this.summary.length > 0 && this.config.show_summary){
+            // if (this.summary.length > 0 && this.summary != undefined && this.config.show_summary){
+              if (this.summary != undefined && this.config.show_summary) {
               routeName.innerHTML = this.config.route_name + ' via ' + this.summary; //todo translatable?
             } else {
               if (this.busLine2 != undefined){
@@ -172,7 +173,7 @@ Module.register('MMM-TrafficJu', {
             this.commute = payload.commute;
             this.summary = payload.summary;
             this.trafficComparison = payload.trafficComparison;
-            if (payload.busLine != '')
+            if (payload.busLine != '' && payload.busLine != undefined)
             {
               this.busLine = payload.busLine;
               this.departureTime = payload.departureTime;
@@ -182,9 +183,9 @@ Module.register('MMM-TrafficJu', {
                 this.departureStop = payload.departureStop;
                 this.busStep = payload.busStep;              
               }
+              this.loaded = true;
+              this.updateDom(1000);
             }
-            this.loaded = true;
-            this.updateDom(1000);
         } else if (notification === 'TRAFFIC_TIMING') {
             Log.info('received TRAFFIC_TIMING');
             this.leaveBy = payload.commute;
